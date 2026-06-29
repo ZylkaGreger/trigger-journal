@@ -43,7 +43,8 @@ kein Account, läuft offline.
 
 ### 2. Das Terminal (Claude Code)
 
-Wenn du Claude Code im geklonten Ordner öffnest, hast du zwei Commands:
+Wenn du Claude Code im geklonten Ordner öffnest, hast du zwei Commands (sie liegen
+in `.claude/commands/` — darum laden sie automatisch, sobald du im Ordner bist):
 
 - **`/trigger`** — ich führe dich behutsam durch einen Eintrag und speichere ihn
   als `entries/JJJJ-MM-TT-HHMMSS.json`. Du kannst auch einfach drauflos erzählen.
@@ -51,6 +52,14 @@ Wenn du Claude Code im geklonten Ordner öffnest, hast du zwei Commands:
   wöchentliche Reflexion: was hochkam, ein vermutetes Muster, eine offene Frage.
   Keine Lösung, kein Ratschlag. Das passiert komplett lokal im Gespräch — **keine
   API, kein Schlüssel, keine Cloud.**
+
+`/woche` wertet auch **App-Einträge** aus: leg eine aus der App exportierte
+`.json`-Liste in den Ordner (oder füg deinen „Woche kopieren"-Text in den Chat
+ein) — egal ob du am Handy oder im Terminal erfasst hast.
+
+> Die Commands liegen doppelt: `.claude/commands/` (lädt beim Klonen) und
+> `commands/` + `.claude-plugin/` (für optionale Plugin-Installation). Beide sind
+> identisch — wenn du den Tonfall änderst, passe `.claude/commands/` an.
 
 ### Die Linsen für die Mustererkennung
 
