@@ -97,6 +97,13 @@
   .tools .row{justify-content:center;gap:8px}
   .privacy{text-align:center;color:var(--muted);font-size:12.5px;margin-top:16px;line-height:1.5}
   .empty{text-align:center;color:var(--muted);font-style:italic;padding:18px 0}
+
+  /* sanfter Sicherungs-Hinweis — kein Alarm */
+  .nudge{display:none;background:var(--accent-soft);border:1px solid var(--line);border-radius:var(--radius);
+         padding:14px 16px;margin-bottom:18px;box-shadow:var(--shadow)}
+  .nudge.show{display:block}
+  .nudge p{margin:0 0 10px;font-size:14px}
+  .nudge .row{gap:8px}
 </style>
 </head>
 <body>
@@ -106,6 +113,15 @@
     <h1>Trigger-Journal</h1>
     <p class="credo">Was mich im Aussen stört, hat fast nichts mit dem Aussen zu tun — und fast alles mit etwas in mir.</p>
   </header>
+
+  <!-- sanfter Sicherungs-Hinweis -->
+  <div class="nudge" id="nudge">
+    <p id="nudgeText"></p>
+    <div class="row">
+      <button type="button" class="btn small" id="nudgeSave">Jetzt sichern</button>
+      <button type="button" class="btn small ghost" id="nudgeLater">Später</button>
+    </div>
+  </div>
 
   <!-- Erfassen -->
   <form class="card" id="form" autocomplete="off">
@@ -180,9 +196,11 @@
 const KEY = "trigger-journal-entries-v1";
 const $ = s => document.querySelector(s);
 
+const BKEY = "trigger-journal-last-backup-v1";   // ISO-Datum der letzten Sicherung
 const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch { return []; } };
 const save = list => localStorage.setItem(KEY, JSON.stringify(list));
 let entries = load();
+let nudgeSnoozed = false;   // „Später" gilt nur bis zum nächsten Laden
 
 const esc = s => String(s ?? "").replace(/[&<>]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
 const ctxLabel = c => ({arbeit:"Arbeit",beziehung:"Beziehung",familie:"Familie",sonstiges:"Sonstiges"}[c]||c);
@@ -197,6 +215,25 @@ function updateInvite(){
   $("#invite").classList.toggle("show", aussen.length > 12 && innen.length === 0);
 }
 ["#trigger_aussen","#story","#reflexion_innen"].forEach(s => $(s).addEventListener("input", updateInvite));
+
+/* sanfter Sicherungs-Hinweis — taucht nur auf, wenn wirklich Ungesichertes da ist */
+function markBackup(){ localStorage.setItem(BKEY, new Date().toISOString()); }
+function updateNudge(){
+  const el = $("#nudge");
+  if (nudgeSnoozed){ el.classList.remove("show"); return; }
+  const last = localStorage.getItem(BKEY);
+  const lastTime = last ? new Date(last).getTime() : 0;
+  const newer = entries.filter(en => new Date(en.timestamp).getTime() > lastTime);
+  const days = last ? (Date.now() - lastTime) / 86400000 : Infinity;
+  // erst ab ~3 neuen Einträgen, oder 1+ neue Einträge wenn die letzte Sicherung >7 Tage her ist
+  const show = newer.length >= 3 || (last && days >= 7 && newer.length >= 1);
+  $("#nudgeText").textContent = last
+    ? `Ein sanfter Hinweis: ${newer.length} ${newer.length===1?"Eintrag":"Einträge"} seit der letzten Sicherung. Magst du sie kurz exportieren? Sonst gehen sie verloren, falls der Browser-Speicher geleert wird.`
+    : `Ein sanfter Hinweis: deine Einträge sind noch nicht gesichert. Magst du sie kurz exportieren? Sie liegen nur in diesem Browser — beim Löschen der Browserdaten wären sie weg.`;
+  el.classList.toggle("show", show);
+}
+$("#nudgeLater").addEventListener("click", () => { nudgeSnoozed = true; updateNudge(); });
+$("#nudgeSave").addEventListener("click", () => exportAll());
 
 /* speichern */
 $("#form").addEventListener("submit", e => {
@@ -221,7 +258,7 @@ $("#form").addEventListener("submit", e => {
     $("#confirm").textContent = "Schreib zuerst, was hochkam — und sei es nur ein Satz.";
     return;
   }
-  entries.unshift(entry); save(entries); render();
+  entries.unshift(entry); save(entries); render(); updateNudge();
   e.target.reset(); updateInvite();
   // bewusst KEIN Score, KEIN Lob — nur eine offene Frage zum Sitzenlassen.
   $("#confirm").textContent = "Abgelegt. Du musst nichts damit tun — wo war das nochmal in dir spürbar?";
@@ -262,7 +299,7 @@ $("#list").addEventListener("click", e => {
   const del = e.target.closest("[data-del]");
   if (del){
     if (confirm("Diesen Eintrag löschen?")){
-      entries = entries.filter(x => x.id !== del.dataset.del); save(entries); render();
+      entries = entries.filter(x => x.id !== del.dataset.del); save(entries); render(); updateNudge();
     }
     return;
   }
@@ -277,10 +314,12 @@ function download(name, text, type){
   const a = Object.assign(document.createElement("a"), {href:url, download:name});
   document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
 }
-$("#exportAll").addEventListener("click", () => {
+function exportAll(){
   if (!entries.length){ alert("Noch nichts zum Exportieren."); return; }
   download(`trigger-journal-${new Date().toISOString().slice(0,10)}.json`, JSON.stringify(entries,null,2), "application/json");
-});
+  markBackup(); nudgeSnoozed = false; updateNudge();
+}
+$("#exportAll").addEventListener("click", exportAll);
 
 /* export: woche als text — fertig zum einfügen in claude */
 $("#exportWeek").addEventListener("click", async () => {
@@ -332,14 +371,14 @@ $("#importFile").addEventListener("change", e => {
       const byId = new Map(entries.map(x => [x.id, x]));
       incoming.forEach(x => { if (x && x.id) byId.set(x.id, x); });
       entries = [...byId.values()].sort((a,b)=> new Date(b.timestamp) - new Date(a.timestamp));
-      save(entries); render();
+      save(entries); render(); updateNudge();
       alert(`${incoming.length} Eintrag/Einträge importiert.`);
     } catch { alert("Datei konnte nicht gelesen werden — ist es ein Export aus diesem Journal?"); }
   };
   r.readAsText(file); e.target.value = "";
 });
 
-render(); updateInvite();
+render(); updateInvite(); updateNudge();
 </script>
 </body>
 </html>

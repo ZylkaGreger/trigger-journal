@@ -37,6 +37,10 @@ kein Account, läuft offline.
   Zwischenablage — den fügst du in Claude (App oder Code) ein und bekommst die
   wöchentliche Reflexion.
 - **Export / Import (.json)** für Backups oder um deine Liste bewusst zu teilen.
+- **Sanfter Sicherungs-Hinweis:** Liegen ein paar ungesicherte Einträge (oder ist
+  die letzte Sicherung über eine Woche her), taucht behutsam die Frage auf, ob du
+  exportieren magst — kein Alarm, „Später" jederzeit möglich. Schützt davor, dass
+  Einträge beim Leeren des Browser-Speichers verloren gehen.
 
 > Am Handy: Datei z. B. über die Datei-App öffnen, oder das Repo via GitHub Pages
 > bereitstellen (siehe unten) und die Seite zum Home-Bildschirm hinzufügen.
