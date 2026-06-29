@@ -1,0 +1,22 @@
+# ─────────────────────────────────────────────────────────────
+# DATENSCHUTZ-WALL — sehr wichtig.
+# Geteilt wird das WERKZEUG, niemals deine Einträge.
+# Deine intimen Daten landen NIE auf GitHub.
+# ─────────────────────────────────────────────────────────────
+
+# Alle echten Einträge ignorieren ...
+entries/*
+
+# ... aber den Ordner selbst und das Beispiel behalten,
+# damit das Repo verständlich bleibt.
+!entries/.gitkeep
+
+# Lokale Exporte / Backups
+exports/
+*.backup.json
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

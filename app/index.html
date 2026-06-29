@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>Niemand werden · Trigger-Journal</title>
+<style>
+  :root{
+    --bg:#f4f1ea;          /* warmes Off-White */
+    --card:#fbf9f4;
+    --ink:#2e2a26;         /* weiches Dunkelbraun */
+    --muted:#8a8178;
+    --line:#e4ded3;
+    --accent:#6b7f6e;      /* gedämpftes Salbeigrün */
+    --accent-soft:#e8ede7;
+    --field:#fffdf8;
+    --shadow:0 1px 2px rgba(60,50,40,.05), 0 8px 24px rgba(60,50,40,.05);
+    --radius:16px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#1c1a18; --card:#252220; --ink:#ece6dd; --muted:#9a9087;
+      --line:#332f2b; --accent:#8aa48c; --accent-soft:#2a302a; --field:#201e1c;
+      --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+    }
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    background:var(--bg); color:var(--ink);
+    font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+  .wrap{max-width:620px;margin:0 auto;padding:28px 18px 80px}
+  header{text-align:center;margin:14px 0 26px}
+  header .kicker{font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+  header h1{font-size:26px;margin:6px 0 10px;font-weight:600;letter-spacing:-.01em}
+  header .credo{color:var(--muted);font-style:italic;max-width:42ch;margin:0 auto;font-size:15px}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+        box-shadow:var(--shadow);padding:20px;margin-bottom:18px}
+
+  label{display:block;font-size:14px;font-weight:600;margin:16px 0 6px}
+  label:first-child{margin-top:0}
+  label .opt{font-weight:400;color:var(--muted);font-size:13px}
+  .hint{color:var(--muted);font-size:13px;margin:-2px 0 8px}
+
+  input[type=text], textarea, select{
+    width:100%;background:var(--field);color:var(--ink);
+    border:1px solid var(--line);border-radius:12px;padding:11px 13px;
+    font:inherit;resize:vertical;
+  }
+  textarea{min-height:64px}
+  input:focus, textarea:focus, select:focus{outline:none;border-color:var(--accent);
+    box-shadow:0 0 0 3px var(--accent-soft)}
+
+  .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+
+  .toggle{display:flex;align-items:center;gap:10px;margin-top:16px;cursor:pointer;user-select:none}
+  .toggle input{appearance:none;width:42px;height:25px;background:var(--line);border-radius:999px;position:relative;transition:.2s;flex:none;cursor:pointer}
+  .toggle input:checked{background:var(--accent)}
+  .toggle input::after{content:"";position:absolute;top:3px;left:3px;width:19px;height:19px;background:#fff;border-radius:50%;transition:.2s}
+  .toggle input:checked::after{transform:translateX(17px)}
+  .toggle span{font-size:14px}
+
+  /* sanfte Einladung */
+  .invite{margin-top:16px;background:var(--accent-soft);border-radius:12px;padding:13px 15px;
+          font-style:italic;color:var(--ink);display:none;border:1px solid var(--line)}
+  .invite.show{display:block}
+  .invite small{display:block;font-style:normal;color:var(--muted);margin-top:4px;font-size:12.5px}
+
+  .btn{appearance:none;border:1px solid var(--line);background:var(--field);color:var(--ink);
+       border-radius:12px;padding:11px 16px;font:inherit;font-weight:600;cursor:pointer;transition:.15s}
+  .btn:hover{border-color:var(--accent)}
+  .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff;width:100%;margin-top:20px;padding:13px}
+  .btn.ghost{font-weight:500;color:var(--muted)}
+  .btn.small{padding:7px 11px;font-size:13px}
+
+  .confirm{text-align:center;color:var(--muted);font-style:italic;margin-top:14px;min-height:1.2em;font-size:14.5px}
+
+  .entries h2{font-size:15px;letter-spacing:.04em;color:var(--muted);text-transform:uppercase;margin:34px 4px 12px;font-weight:600}
+  .entry{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:15px 16px;margin-bottom:12px;box-shadow:var(--shadow)}
+  .entry .meta{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12.5px;color:var(--muted)}
+  .pill{background:var(--accent-soft);color:var(--ink);border-radius:999px;padding:2px 10px;font-size:12px}
+  .entry .aussen{margin:8px 0 0;font-weight:500}
+  .entry .body{display:none;margin-top:10px;border-top:1px solid var(--line);padding-top:10px}
+  .entry.open .body{display:block}
+  .entry .field{margin:8px 0}
+  .entry .field .k{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+  .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+  .tag{background:var(--accent-soft);border-radius:999px;padding:2px 9px;font-size:12.5px}
+  .entry .actions{margin-top:12px;display:flex;gap:8px}
+
+  .tools{margin-top:30px;border-top:1px solid var(--line);padding-top:18px}
+  .tools .row{justify-content:center;gap:8px}
+  .privacy{text-align:center;color:var(--muted);font-size:12.5px;margin-top:16px;line-height:1.5}
+  .empty{text-align:center;color:var(--muted);font-style:italic;padding:18px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="kicker">Niemand werden</div>
+    <h1>Trigger-Journal</h1>
+    <p class="credo">Was mich im Aussen stört, hat fast nichts mit dem Aussen zu tun — und fast alles mit etwas in mir.</p>
+  </header>
+
+  <!-- Erfassen -->
+  <form class="card" id="form" autocomplete="off">
+    <label for="context">Wo?</label>
+    <select id="context">
+      <option value="arbeit">Arbeit</option>
+      <option value="beziehung">Beziehung</option>
+      <option value="familie">Familie</option>
+      <option value="sonstiges">Sonstiges</option>
+    </select>
+
+    <label for="trigger_aussen">Auslöser · die Situation <span class="opt">(das „Aussen")</span></label>
+    <div class="hint">Was ist konkret passiert? Fakten, kein Urteil.</div>
+    <textarea id="trigger_aussen"></textarea>
+
+    <label for="story">Die Story</label>
+    <div class="hint">Was hast du dir erzählt? Wem oder was gibst du die Schuld?</div>
+    <textarea id="story"></textarea>
+
+    <label for="koerper">Körper <span class="opt">(optional)</span></label>
+    <div class="hint">Wo im Körper? Welche Sensation kommt hoch?</div>
+    <input type="text" id="koerper">
+
+    <label for="emotion">Emotion <span class="opt">(optional)</span></label>
+    <input type="text" id="emotion" placeholder="Welches Gefühl?">
+
+    <label for="identitaet">Berührte Identität · Rolle <span class="opt">(optional)</span></label>
+    <div class="hint">z. B. „ich kann ja nur das", „der kleine Motzer" — mit Komma trennen.</div>
+    <input type="text" id="identitaet">
+
+    <label class="toggle">
+      <input type="checkbox" id="meta_trigger">
+      <span>Ich rege mich gerade mehr über mein eigenes Aufregen auf als über die Sache. <span style="color:var(--muted)">(Kopfkino)</span></span>
+    </label>
+
+    <!-- sanfte Einladung, kein Zwang -->
+    <div class="invite" id="invite">
+      Bist du sicher, dass es im Aussen liegt?
+      <small>Eine Einladung, keine Korrektur. Du musst sie nicht beantworten.</small>
+    </div>
+
+    <label for="reflexion_innen">Die Wende <span class="opt">(optional)</span></label>
+    <div class="hint">Wo ist das in mir?</div>
+    <textarea id="reflexion_innen"></textarea>
+
+    <button type="submit" class="btn primary">Ablegen · lass es raus</button>
+    <div class="confirm" id="confirm"></div>
+  </form>
+
+  <!-- Liste -->
+  <div class="entries">
+    <h2>Was hochkam</h2>
+    <div id="list"></div>
+  </div>
+
+  <!-- Werkzeuge -->
+  <div class="tools">
+    <div class="row">
+      <button class="btn small ghost" id="exportWeek">Woche kopieren · für Claude</button>
+      <button class="btn small ghost" id="exportAll">Alles exportieren (.json)</button>
+      <button class="btn small ghost" id="importBtn">Importieren</button>
+      <input type="file" id="importFile" accept="application/json" hidden>
+    </div>
+    <p class="privacy">
+      Alles bleibt auf diesem Gerät, im Speicher dieses Browsers.<br>
+      Nichts wird hochgeladen. „Meine Liste geben" = bewusst exportieren.
+    </p>
+  </div>
+</div>
+
+<script>
+const KEY = "trigger-journal-entries-v1";
+const $ = s => document.querySelector(s);
+
+const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch { return []; } };
+const save = list => localStorage.setItem(KEY, JSON.stringify(list));
+let entries = load();
+
+const esc = s => String(s ?? "").replace(/[&<>]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+const ctxLabel = c => ({arbeit:"Arbeit",beziehung:"Beziehung",familie:"Familie",sonstiges:"Sonstiges"}[c]||c);
+const fmtDate = ts => { const d = new Date(ts);
+  return d.toLocaleDateString("de-CH",{weekday:"short",day:"2-digit",month:"2-digit"})
+       + " · " + d.toLocaleTimeString("de-CH",{hour:"2-digit",minute:"2-digit"}); };
+
+/* sanfte Einladung zeigen, wenn viel Aussen / wenig Innen */
+function updateInvite(){
+  const aussen = $("#trigger_aussen").value.trim() + " " + $("#story").value.trim();
+  const innen  = $("#reflexion_innen").value.trim();
+  $("#invite").classList.toggle("show", aussen.length > 12 && innen.length === 0);
+}
+["#trigger_aussen","#story","#reflexion_innen"].forEach(s => $(s).addEventListener("input", updateInvite));
+
+/* speichern */
+$("#form").addEventListener("submit", e => {
+  e.preventDefault();
+  const now = new Date();
+  const pad = n => String(n).padStart(2,"0");
+  const id = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}-${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
+  const ids = $("#identitaet").value.split(",").map(s=>s.trim()).filter(Boolean);
+  const entry = {
+    id,
+    timestamp: now.toISOString(),
+    context: $("#context").value,
+    trigger_aussen: $("#trigger_aussen").value.trim(),
+    story: $("#story").value.trim(),
+    koerper: $("#koerper").value.trim(),
+    emotion: $("#emotion").value.trim(),
+    identitaet: ids,
+    reflexion_innen: $("#reflexion_innen").value.trim(),
+    meta_trigger: $("#meta_trigger").checked
+  };
+  if (!entry.trigger_aussen && !entry.story){
+    $("#confirm").textContent = "Schreib zuerst, was hochkam — und sei es nur ein Satz.";
+    return;
+  }
+  entries.unshift(entry); save(entries); render();
+  e.target.reset(); updateInvite();
+  // bewusst KEIN Score, KEIN Lob — nur eine offene Frage zum Sitzenlassen.
+  $("#confirm").textContent = "Abgelegt. Du musst nichts damit tun — wo war das nochmal in dir spürbar?";
+  setTimeout(()=>{ $("#confirm").textContent=""; }, 9000);
+  window.scrollTo({top:0, behavior:"smooth"});
+});
+
+/* liste rendern */
+function render(){
+  const list = $("#list");
+  if (!entries.length){ list.innerHTML = `<div class="empty">Noch nichts abgelegt. Das ist völlig in Ordnung.</div>`; return; }
+  list.innerHTML = entries.map(en => {
+    const tags = (en.identitaet||[]).map(t=>`<span class="tag">${esc(t)}</span>`).join("");
+    const field = (k,v) => v ? `<div class="field"><div class="k">${k}</div><div>${esc(v)}</div></div>` : "";
+    return `<div class="entry" data-id="${en.id}">
+      <div class="meta">
+        <span>${fmtDate(en.timestamp)}</span>
+        <span class="pill">${ctxLabel(en.context)}</span>
+      </div>
+      <p class="aussen">${esc(en.trigger_aussen) || "<em style='color:var(--muted)'>(ohne Situation)</em>"}</p>
+      <div class="body">
+        ${field("Story", en.story)}
+        ${field("Körper", en.koerper)}
+        ${field("Emotion", en.emotion)}
+        ${tags ? `<div class="field"><div class="k">Identität · Rolle</div><div class="tags">${tags}</div></div>` : ""}
+        ${en.meta_trigger ? `<div class="field"><div class="k">Meta-Trigger</div><div>Aufregen über das Aufregen.</div></div>` : ""}
+        ${field("Wo ist das in mir?", en.reflexion_innen)}
+        <div class="actions">
+          <button class="btn small ghost" data-del="${en.id}">Löschen</button>
+        </div>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+/* aufklappen / löschen */
+$("#list").addEventListener("click", e => {
+  const del = e.target.closest("[data-del]");
+  if (del){
+    if (confirm("Diesen Eintrag löschen?")){
+      entries = entries.filter(x => x.id !== del.dataset.del); save(entries); render();
+    }
+    return;
+  }
+  const card = e.target.closest(".entry");
+  if (card) card.classList.toggle("open");
+});
+
+/* export: alles als json */
+function download(name, text, type){
+  const blob = new Blob([text], {type});
+  const url = URL.createObjectURL(blob);
+  const a = Object.assign(document.createElement("a"), {href:url, download:name});
+  document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+}
+$("#exportAll").addEventListener("click", () => {
+  if (!entries.length){ alert("Noch nichts zum Exportieren."); return; }
+  download(`trigger-journal-${new Date().toISOString().slice(0,10)}.json`, JSON.stringify(entries,null,2), "application/json");
+});
+
+/* export: woche als text — fertig zum einfügen in claude */
+$("#exportWeek").addEventListener("click", async () => {
+  const since = Date.now() - 7*24*60*60*1000;
+  const week = entries.filter(en => new Date(en.timestamp).getTime() >= since);
+  if (!week.length){ alert("Diese Woche ist noch nichts da. Völlig ok."); return; }
+  const preamble =
+`Das sind meine Trigger-Einträge der letzten 7 Tage aus dem Projekt „Niemand werden".
+
+Bitte mach daraus eine behutsame wöchentliche Reflexion — keine Lösung, kein Ratschlag, kein Urteil, keine Streaks/Scores. Es gibt nichts zu fixen. Vorsichtige Sprache.
+
+Gib mir:
+1. Was diese Woche hochkam (2–4 Sätze, spiegelnd).
+2. Ein vermutetes Muster (eine Hypothese, z. B. wiederkehrende Identität oder ein gemeinsamer Ur-Trigger darunter).
+3. Eine einzige offene Frage zum Sitzenlassen, im Geist von „Bist du sicher, dass es im Aussen liegt?".
+
+Hier die Einträge:
+
+`;
+  const body = week.map((en,i) => {
+    const L = [];
+    L.push(`— Eintrag ${i+1} (${fmtDate(en.timestamp)}, ${ctxLabel(en.context)}) —`);
+    if (en.trigger_aussen) L.push(`Auslöser: ${en.trigger_aussen}`);
+    if (en.story)          L.push(`Story: ${en.story}`);
+    if (en.koerper)        L.push(`Körper: ${en.koerper}`);
+    if (en.emotion)        L.push(`Emotion: ${en.emotion}`);
+    if (en.identitaet?.length) L.push(`Identität: ${en.identitaet.join(", ")}`);
+    if (en.meta_trigger)   L.push(`Meta-Trigger: ja`);
+    if (en.reflexion_innen)L.push(`Wo ist das in mir?: ${en.reflexion_innen}`);
+    return L.join("\n");
+  }).join("\n\n");
+  const text = preamble + body;
+  try { await navigator.clipboard.writeText(text);
+    const b = $("#exportWeek"); const old = b.textContent;
+    b.textContent = "Kopiert — in Claude einfügen ✓";
+    setTimeout(()=>b.textContent=old, 2500);
+  } catch { download("woche.txt", text, "text/plain"); }
+});
+
+/* import */
+$("#importBtn").addEventListener("click", () => $("#importFile").click());
+$("#importFile").addEventListener("change", e => {
+  const file = e.target.files[0]; if (!file) return;
+  const r = new FileReader();
+  r.onload = () => {
+    try {
+      const data = JSON.parse(r.result);
+      const incoming = Array.isArray(data) ? data : [data];
+      const byId = new Map(entries.map(x => [x.id, x]));
+      incoming.forEach(x => { if (x && x.id) byId.set(x.id, x); });
+      entries = [...byId.values()].sort((a,b)=> new Date(b.timestamp) - new Date(a.timestamp));
+      save(entries); render();
+      alert(`${incoming.length} Eintrag/Einträge importiert.`);
+    } catch { alert("Datei konnte nicht gelesen werden — ist es ein Export aus diesem Journal?"); }
+  };
+  r.readAsText(file); e.target.value = "";
+});
+
+render(); updateInvite();
+</script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "id": "beispiel-folge-2",
+  "timestamp": "2026-06-15T20:30:00",
+  "context": "arbeit",
+  "trigger_aussen": "Eine Arbeitssituation lief nicht so, wie ich sie mir vorgestellt hatte.",
+  "story": "Die anderen / das System sind schuld. Und gleichzeitig: ich bin nicht gut genug, ich muss besser sein als der Rest.",
+  "koerper": "Anspannung, die hochkommt.",
+  "emotion": "Gereiztheit, darunter Angst.",
+  "identitaet": ["ich kann ja nur das", "ich bin ja nur das", "der kleine Motzer"],
+  "reflexion_innen": "Angst vor Jobverlust / Statusverlust. Ein alter Selbstwert-Trigger. Nicht das Aussen.",
+  "meta_trigger": true
+}

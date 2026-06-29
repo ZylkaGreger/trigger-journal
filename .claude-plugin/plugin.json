@@ -1,0 +1,8 @@
+{
+  "name": "trigger-journal",
+  "version": "0.1.0",
+  "description": "Trigger-Journal zum Projekt 'Niemand werden' — Trigger behutsam erfassen und Muster sichtbar machen, ohne zu urteilen und ohne zu reparieren. Erfassen via /trigger, wöchentliche Reflexion via /woche. Local-first, keine Cloud, keine API.",
+  "author": {
+    "name": "Peter & Myriam"
+  }
+}
