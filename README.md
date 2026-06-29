@@ -52,6 +52,18 @@ Wenn du Claude Code im geklonten Ordner öffnest, hast du zwei Commands:
   Keine Lösung, kein Ratschlag. Das passiert komplett lokal im Gespräch — **keine
   API, kein Schlüssel, keine Cloud.**
 
+### Die Linsen für die Mustererkennung
+
+Beim Auswerten greife ich auf `reference/lenses.md` zurück — eine kuratierte
+Sammlung von Deutungs-Linsen aus der Tradition, in der „Niemand werden" steht:
+**Michael Singer** (*The Untethered Soul*) — der innere Mitbewohner, der Zeuge
+dahinter, **Samskaras** (gespeicherte Energie; das Rückgrat für „derselbe
+Ur-Trigger auf verschiedenen Oberflächen"), Loslassen — sowie verwandte Stimmen:
+Ramana Maharshi („Wer bin ich?"), Byron Katie („Stimmt das wirklich?"), der
+buddhistische *zweite Pfeil* (für den Meta-Trigger), Eckhart Tolles Schmerzkörper,
+Tara Brachs RAIN als Tonfall. Alles als **Angebote zum Bemerken** — kein
+Diagnostizieren, kein Fixen.
+
 ## Datenschutz — wie Teilen funktioniert
 
 **Geteilt wird das Werkzeug, niemals deine Einträge.**
@@ -102,6 +114,7 @@ Ein echtes Beispiel (aus Folge 2) liegt in `examples/`.
 trigger-journal/
 ├─ app/index.html        # die UI zum Ausfüllen (eine Datei, offline)
 ├─ commands/             # /trigger und /woche für Claude Code
+├─ reference/lenses.md   # Deutungs-Linsen (Singer u. a.) für die Mustererkennung
 ├─ entries/              # deine Einträge (per .gitignore NICHT geteilt)
 ├─ examples/             # ein Beispiel-Eintrag
 └─ .claude-plugin/       # Plugin-Manifest

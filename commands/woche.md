@@ -44,6 +44,14 @@ Das gehört zum persönlichen Projekt **„Niemand werden"**. Das Ziel ist
      Angst unter den verschiedenen Oberflächen derselbe Faden sein könnte.
      Ausdrücklich als Vermutung markieren.
 
+   **Lies dazu `reference/lenses.md`** und lege beim Clustern und besonders bei der
+   Ur-Trigger-Hypothese **eine, höchstens zwei** passende Linsen an (Michael Singer
+   u. a.) — die, die das Material der Woche wirklich trägt. Besonders nützlich:
+   *Samskaras* (derselbe Trigger auf verschiedenen Oberflächen → der Ur-Trigger),
+   *der zweite Pfeil* (für `meta_trigger`), *Teile/Rollen* (für `identitaet`),
+   *der innere Mitbewohner* (für die `story`). Linsen sind **Angebote**, kein
+   Diagnostizieren — beachte die Hinweise oben in der Datei.
+
 3. **Die wöchentliche Reflexion schreiben** — kurz, ruhig, in dieser Form:
    - **Was diese Woche hochkam** — 2–4 Sätze, spiegelnd, ohne Wertung.
    - **Ein vermutetes Muster** — die eine Hypothese, vorsichtig formuliert.

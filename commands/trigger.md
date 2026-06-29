@@ -52,6 +52,11 @@ Mood-Tracker, und das ist es ausdrücklich **nicht**.
    Akzeptiere jede Antwort. Auch „weiss nicht" oder „ja, ist es" ist vollkommen ok.
    Niemand muss zur Einsicht kommen. Lass es offen.
 
+   *Optional:* Will die Person an dieser Stelle länger bleiben, darfst du **eine**
+   sanfte Linse aus `reference/lenses.md` anbieten (z. B. „Wer hört diese Stimme?"
+   oder der zweite Pfeil) — als Frage, nie als Belehrung. Im Zweifel: nicht. Das
+   Erfassen soll leicht bleiben.
+
 4. **Speichern.** Lege den Eintrag als JSON-Datei ab unter
    `entries/JJJJ-MM-TT-HHMMSS.json` (relativ zum Repo-Wurzelverzeichnis), in genau
    diesem Format — gleiche Struktur wie die Web-App, damit beides zusammenpasst:
