@@ -11,6 +11,9 @@ entries/*
 # damit das Repo verständlich bleibt.
 !entries/.gitkeep
 
+# Wochen-Reflexionen — genauso privat wie die Einträge, NIE teilen
+reflections/
+
 # Lokale Exporte / Backups
 exports/
 *.backup.json
