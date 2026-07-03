@@ -1,7 +1,7 @@
 # Trigger-Journal – Projektkontext für Claude Code
 
 Diese Datei ist der dauerhafte Kontext für dieses Projekt. Bitte vor dem Bauen lesen.
-Der ausführliche Produkt-Brief liegt in `Trigger_Journal_Brief.md` – dort stehen Datenmodell, Beispiel-Eintrag und Details. Diese Datei hier ist die Kurzfassung plus die nicht verhandelbaren Leitplanken.
+Sie ist die Kurzfassung plus die nicht verhandelbaren Leitplanken. Details zum bereits Gebauten stehen in `README.md`, das Datenmodell zeigt `examples/`, die Deutungs-Linsen liegen in `reference/lenses.md`, die Erfassungs-/Reflexions-Logik in `commands/`.
 
 ## Worum es geht
 
@@ -50,5 +50,3 @@ Ein privates **Trigger-Journal mit Mustererkennung**:
 - **Speicher:** Lokal — App im Browser-localStorage, Terminal als JSON in `entries/`. Beide **dasselbe Format**. `/woche` liest auch App-Exporte.
 - **Datenschutz:** `entries/` und `reflections/` sind per `.gitignore` ausgeschlossen — geteilt wird nur das Werkzeug, nie die Daten. Repo ist privat (`ZylkaGreger/trigger-journal`).
 - **Mustererkennung:** greift auf `reference/lenses.md` zurück — Deutungs-Linsen aus der „Niemand werden"-Tradition (Michael Singer: innerer Mitbewohner, Zeuge, Samskaras, Loslassen; sowie Ramana, Byron Katie, der zweite Pfeil, Tolle, Tara Brach/RAIN, Teile/Rollen). Immer als Angebote zum Bemerken — kein Diagnostizieren, kein Fixen.
-
-**Hinweis:** Der im Kopf referenzierte `Trigger_Journal_Brief.md` liegt (noch) nicht im Repo. Wenn du ihn dabei haben willst, leg ihn ins Wurzelverzeichnis — er ist reiner Projektkontext (keine intimen Daten) und darf mit ins Repo.
