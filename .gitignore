@@ -18,6 +18,20 @@ reflections/
 exports/
 *.backup.json
 
+# Podcast-Transkripte (Sounds True) — urheberrechtlich geschützt,
+# nur lokal für den privaten Gebrauch, NIE committen
+reference/transcripts/
+
+# Singer-Wissensbasis (aus den Transkripten destilliert) — ebenfalls nur lokal
+reference/singer-knowledge/
+
+# Human Design — enthält persönliche Geburtsdaten (PII), nur lokal, NIE committen
+reference/human-design/
+
+# Destillierte Singer-Wissensbasis — enthält Original-Zitate aus den
+# Transkripten, ebenfalls nur lokal
+reference/singer-knowledge/
+
 # OS / Editor
 .DS_Store
 Thumbs.db

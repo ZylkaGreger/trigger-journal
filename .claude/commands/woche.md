@@ -52,7 +52,14 @@ Das gehört zum persönlichen Projekt **„Niemand werden"**. Das Ziel ist
 
    **Lies dazu `reference/lenses.md`** und lege beim Clustern und besonders bei der
    Ur-Trigger-Hypothese **eine, höchstens zwei** passende Linsen an (Michael Singer
-   u. a.) — die, die das Material der Woche wirklich trägt. Besonders nützlich:
+   u. a.) — die, die das Material der Woche wirklich trägt.
+
+   **Optionale Human-Design-Linse:** Liegt `reference/human-design/` vor, darfst du
+   *zusätzlich höchstens einen* HD-Anker anbieten (Not-Self Bitterness, offenes
+   Herz-Zentrum „ich muss mich beweisen", emotionale Autorität „keine Wahrheit im
+   Jetzt" …). **Lies zuerst die Haltung in `human-design/knowledge.md`:** HD ist eine
+   Linse zum Bemerken, kein Etikett — niemals „du bist ein Projector, deshalb…",
+   immer „könnte es sein, dass…". Im Zweifel weglassen; die Reflexion bleibt kurz. Besonders nützlich:
    *Samskaras* (derselbe Trigger auf verschiedenen Oberflächen → der Ur-Trigger),
    *der zweite Pfeil* (für `meta_trigger`), *Teile/Rollen* (für `identitaet`),
    *der innere Mitbewohner* (für die `story`). Linsen sind **Angebote**, kein
